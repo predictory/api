@@ -1,8 +1,13 @@
+import * as config from 'config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+    const host: string = config.get('api.host');
+    const port: number = config.get('api.port');
+
     const app = await NestFactory.create(AppModule);
-    await app.listen(3000);
+    app.enableCors();
+    await app.listen(port, host);
 }
 bootstrap();
