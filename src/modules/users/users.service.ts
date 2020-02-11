@@ -20,4 +20,32 @@ export class UsersService {
 
         return users.map(user => _.omit(user, ['password']));
     }
+
+    async findByID(id: number): Promise<UserRO> {
+        const user = await this.usersRepository.findOne({
+            where: { id }
+        });
+
+        if (!user) {
+            throw new BadRequestException('User not found.');
+        }
+
+        return _.omit(user, ['password']);
+    }
+
+    async findByEmail(email: string, withPass: boolean = false): Promise<User> {
+        let user: any = await this.usersRepository.findOne({
+            where: { email }
+        });
+
+        if (!user) {
+            return null;
+        }
+
+        if (!withPass) {
+            user = _.omit(user, ['password']);
+        }
+
+        return user;
+    }
 }
