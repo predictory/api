@@ -4,8 +4,9 @@ import { WinstonModule } from 'nest-winston';
 import { MoviesModule } from '@modules/movies/movies.module';
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
-import { LoggerModule } from '@modules/logger/logger.module';
 import { consoleTransport, fileTransport } from '@modules/logger/transports';
+import { LoggerModule } from '@modules/logger/logger.module';
+import { GenresModule } from '@modules/genres/genres.module';
 
 @Module({
     imports: [
@@ -19,7 +20,8 @@ import { consoleTransport, fileTransport } from '@modules/logger/transports';
         LoggerModule,
         MoviesModule,
         UsersModule,
-        AuthModule
+        AuthModule,
+        GenresModule
     ]
 })
 export class AppModule {}

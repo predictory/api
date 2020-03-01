@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Genre } from '@modules/genres/entities';
 
 enum movieTypes {
     movie = 'movie',
@@ -25,4 +26,27 @@ export class Movie {
 
     @Column('date')
     releaseDate: string;
+
+    @ManyToMany(type => Genre, {
+        cascade: true
+    })
+    @JoinTable({
+        name: 'movies_genres',
+        joinColumns: [
+            {
+                name: 'moviesId',
+                referencedColumnName: 'id'
+            }
+        ],
+        inverseJoinColumns: [
+            {
+                name: 'genresId',
+                referencedColumnName: 'id'
+            }
+        ]
+    })
+    genres: Genre[];
+
+    @Column('enum', { enum: movieTypes })
+    type: string;
 }
