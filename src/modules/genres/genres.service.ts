@@ -10,11 +10,13 @@ export class GenresService {
     ) {}
 
     async findAll(type: string): Promise<Genre[]> {
-        const query: SelectQueryBuilder<Genre> = this.genresRepository.createQueryBuilder('genres');
+        const query: SelectQueryBuilder<Genre> = this.genresRepository
+            .createQueryBuilder('genres')
+            .where('name <> :name', { name: 'N/A' });
 
         if (type) {
             query.innerJoin('genres.movies', 'movies')
-                .where('movies.type = :type', { type });
+                .andWhere('movies.type = :type', { type });
         }
 
         const genres: Genre[] = await query.getMany();
